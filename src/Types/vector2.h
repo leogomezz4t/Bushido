@@ -1,5 +1,5 @@
 #include "raylib.h"
 
-Vector2 Vector2From(int x, int y);
+Vector2 Vector2_From(float x, float y);
 
-double Vector2Dist(Vector2 a, Vector2 b);
+double Vector2_Dist(Vector2 a, Vector2 b);
