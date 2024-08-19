@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/Bushido.dir/src/app.c.o -o Bushido  -Wl,-rpath,/usr/local/lib /usr/local/lib/libraylib.a -lm src/Vectors/libVectors.a src/GameObject/libGameObject.a -L/usr/local/lib -lraylib 
