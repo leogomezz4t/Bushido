@@ -1,16 +1,19 @@
 #include <raylib.h>
+#include "gameEngine.h"
 
 int main(void) {
-    InitWindow(GetScreenWidth(), GetScreenHeight(), "Bushido");
+    GameState game;
+    game.windowWidth = GetScreenWidth();
+    game.windowHeight = GetScreenHeight();
+    game.gameName = "Bushido";
 
-    // Game should be fullscreen
-    SetWindowState(FLAG_FULLSCREEN_MODE);
+    GameState_InitGame(&game);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE); 
         EndDrawing();
     }
-
-    CloseWindow();
+    
+    GameState_CloseGame(&game);
 }

@@ -6,15 +6,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(Bushido VERSION 0.1)
 
+find_package(raylib 3.0 REQUIRED)
+
 # Add all the subdirs 
 add_subdirectory(src/Types)
 add_subdirectory(src/GameObject)
-
-find_package(raylib 3.0 REQUIRED)
+add_subdirectory(src/GameEngine)
 
 add_executable(Bushido src/app.c)
 
-target_link_libraries(Bushido raylib m Vectors GameObject)
+target_link_libraries(Bushido raylib m Types GameObject GameEngine)
 
-target_include_directories(Bushido PUBLIC
-                        "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(Bushido PRIVATE
+                        "${PROJECT_SOURCE_DIR}/include"
+                        )
