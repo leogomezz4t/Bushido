@@ -1,6 +1,6 @@
 #include "gameObject.h"
 
-GameObject GameObjectFrom(int x, int y, int width, int height) {
+GameObject GameObject_From(int x, int y, int width, int height) {
     // initialize the default object
     GameObject go;
 
@@ -13,3 +13,4 @@ GameObject GameObjectFrom(int x, int y, int width, int height) {
 
     return go;
 }
+

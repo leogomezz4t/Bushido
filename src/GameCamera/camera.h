@@ -1,3 +1,6 @@
+#ifndef SCENE_H
+#define SCENE_H
+
 #include "vector2.h"
 
 typedef struct {
@@ -12,3 +15,5 @@ float GameCamera_GetWidth(GameCamera* camera);
 float GameCamera_GetHeight(GameCamera* camera);
 
 Vector2 GameCamera_ToCameraCoordinates(GameCamera* camera, Vector2* position);
+
+#endif

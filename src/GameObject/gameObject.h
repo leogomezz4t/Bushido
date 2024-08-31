@@ -1,3 +1,6 @@
+#ifndef GAME_OBJECT_H
+#define GAME_OBJECT_H
+
 #include <stdbool.h>
 #include "vector2.h"
 #include "orientation.h"
@@ -19,4 +22,11 @@ typedef struct {
 
     // draw layer
     int drawLayer;
+
+    // sprite
+
 } GameObject;
+
+GameObject GameObject_From(int x, int y, int width, int height);
+
+#endif
