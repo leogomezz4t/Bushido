@@ -3,6 +3,7 @@
 
 #include "gameObject.h"
 #include "spriteRenderer.h"
+#include <stdbool.h>
 
 #define MAX_GAME_OBJECTS_PER_SCENE 200
 #define MAX_LAYER 5
@@ -10,6 +11,8 @@
 typedef struct {
     int id;
 
+    // data
+    bool isLoaded;
 
     // collections
     GameObject* gameObjects[MAX_GAME_OBJECTS_PER_SCENE];

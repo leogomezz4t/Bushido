@@ -4,7 +4,19 @@
 #include "gameObject.h"
 
 Scene Scene_From(int id) {
-    return (Scene) { id };
+    Scene ret;
+    ret.id = id;
+
+    ret.gameObjectsLength = 0;
+    ret.spriteRenderersLength = 0;
+
+    ret.isLoaded = false;
+    
+    return ret;
+}
+
+void Scene_Load(Scene* scene) {
+
 }
 
 void Scene_AddGameObject(Scene* scene, GameObject* go) {

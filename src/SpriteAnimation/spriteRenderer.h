@@ -2,11 +2,16 @@
 #define SPRITE_RENDERER_H
 
 #include "spriteAnimation.h"
+#include "sprite.h"
 #include "gameObject.h"
+#include "orientation.h"
 
 typedef struct {
     char spriteName[256];
-    SpriteAnimation* currentAnimation;
+    int currentAnimationIndex;
+
+    // Sprite reference
+    Sprite* sprite;
 
     // references
     GameObject* gameObject;
@@ -21,7 +26,10 @@ typedef struct {
     // transform
     Vector2 positionOffset;
     float scale;
+    Orientation orientation;
 } SpriteRenderer;
+
+SpriteAnimation* SpriteRenderer_GetCurrentSpriteAnimation(SpriteRenderer* sr);
 
 SpriteRenderer SpriteRenderer_From(const char* spriteName, GameObject* go);
 

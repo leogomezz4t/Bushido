@@ -33,6 +33,14 @@ Sprite Sprite_From(const char* name) {
 
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_type == DT_DIR) {
+            // ignore directories such as . and ..
+            if (strcmp(entry->d_name, ".") == 0) {
+                continue;
+            }
+            if (strcmp(entry->d_name, "..") == 0) {
+                continue;
+            }
+            printf("Dir: %s\n", entry->d_name);
             // Create animation
             Sprite_AddAnimation(&ret, entry->d_name);            
         }
