@@ -14,3 +14,11 @@ double Vector2_Dist(Vector2 a, Vector2 b) {
 
     return sqrt(xSquare + ySquare);
 }
+
+Vector2 Vector2_Add(Vector2 a, Vector2 b) {
+    Vector2 c;
+    c.x = a.x + b.x;
+    c.y = a.y + b.y;
+
+    return c;
+}

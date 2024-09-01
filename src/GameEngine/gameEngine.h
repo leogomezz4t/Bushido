@@ -2,7 +2,6 @@
 #define GAME_ENGINE_H
 #include "scene.h"
 
-
 typedef struct {
     int windowWidth;
     int windowHeight;

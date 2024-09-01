@@ -2,9 +2,14 @@
 #define SPRITE_RENDERER_H
 
 #include "spriteAnimation.h"
+#include "gameObject.h"
 
 typedef struct {
+    char spriteName[256];
     SpriteAnimation* currentAnimation;
+
+    // references
+    GameObject* gameObject;
 
     // Frame counting
     int currentFrame;
@@ -14,10 +19,13 @@ typedef struct {
     int _frameCounter;
 
     // transform
-    Vector2 position;
+    Vector2 positionOffset;
+    float scale;
 } SpriteRenderer;
 
-SpriteRenderer SpriteRenderer_From(int x, int y);
+SpriteRenderer SpriteRenderer_From(const char* spriteName, GameObject* go);
+
+Vector2 SpriteRenderer_GetPosition(SpriteRenderer* sr);
 
 Texture2D SpriteRenderer_GetCurrentFrame(SpriteRenderer* sr);
 

@@ -3,30 +3,21 @@
 
 #include <stdbool.h>
 #include "vector2.h"
-#include "orientation.h"
 
-typedef struct {
+typedef struct GameObject {
     Vector2 position;
-    
-    // transform
-    int width;
-    int height;
-
-    Orientation orientation;
-
     // movement
     Vector2 velocity;
 
-    // visibility
+    // Parent struct
+    void* parentData;
+    
+    // behaviour
+    void (*update)(void*);
+
     bool isActive;
-
-    // draw layer
-    int drawLayer;
-
-    // sprite
-
 } GameObject;
 
-GameObject GameObject_From(int x, int y, int width, int height);
+GameObject GameObject_From(int x, int y);
 
 #endif
