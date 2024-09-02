@@ -76,33 +76,32 @@ void Samurai_1_Init(Samurai_1* s, int x, int y) {
 }
 
 int main() {
-    GameState game;
-    game.windowWidth = GetScreenWidth();
-    game.windowHeight = GetScreenHeight();
-    game.gameName = "Bushido";
+    GameState game = GameState_From(
+            GetScreenWidth(),
+            GetScreenHeight(),
+            "Bushido"
+    );
 
-    Scene main = Scene_From(1);
+    Scene* main = GameState_CreateScene(&game, "main");
+    GameState_SetCurrentScene(&game, "main");
 
     Samurai_1 s;
     Samurai_1_Init(&s, 500, 250);
 
-    Scene_AddGameObject(&main, &s.gameObject);
-    Scene_AddSpriteRenderer(&main, &s.spriteRenderer);
+    Scene_AddGameObject(main, &s.gameObject);
+    Scene_AddSpriteRenderer(main, &s.spriteRenderer);
 
     GameState_InitGame(&game);
-
-    Scene_LoadSprites(&main);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);         
         DrawFPS(30, 30);
 
-        Scene_Update(&main);
+        GameState_RunGame(&game);
 
         EndDrawing();
     }
 
-    Scene_UnloadSprites(&main);
     GameState_CloseGame(&game);
 }

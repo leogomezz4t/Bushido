@@ -6,9 +6,14 @@
 #include <stdbool.h>
 #include <string.h>
 
-Scene Scene_From(int id) {
+Scene Scene_From(const char * name) {
     Scene ret;
-    ret.id = id;
+    // check the name length
+    if (strlen(name) >= ID_STRING_SIZE) {
+        printf("Scene_From(): Tried using a name the exceed the max id size. Used name %s\n", name);
+    } else {
+        strcpy(ret.id, name);
+    }
 
     // scene loading
     ret.loadedSpritesLength = 0;

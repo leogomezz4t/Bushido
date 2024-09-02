@@ -9,10 +9,10 @@
 #define MAX_LAYER 5
 #define MAX_LOADED_SPRITES 100
 #define MAX_SPRITE_NAME 50
+#define ID_STRING_SIZE 11
 
 typedef struct {
-    int id;
-
+    char id[ID_STRING_SIZE];
     // data
     bool isLoaded;
 
@@ -28,7 +28,7 @@ typedef struct {
     int spriteRenderersLength;
 } Scene;
 
-Scene Scene_From(int id);
+Scene Scene_From(const char * name);
 
 bool Scene_HasSprite(Scene* scene, const char* spriteName);
 
