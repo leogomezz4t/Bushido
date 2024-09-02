@@ -3,10 +3,8 @@
 #include "gameObject.h"
 #include "orientation.h"
 #include "scene.h"
-#include "spriteAnimation.h"
 #include "gameEngine.h"
 #include "spriteRenderer.h"
-#include "sprite.h"
 #include "vector2.h"
 
 #define SAMURAI_IDLE 8
@@ -23,20 +21,17 @@ void samuraiUpdate(void* data) {
     Samurai_1* samurai = (Samurai_1*) data;
     SpriteRenderer* sr = &samurai->spriteRenderer;
     GameObject* go = &samurai->gameObject;
-        
-    // display the animation
-    SpriteRenderer_Animate(sr);
 
     // movement
     if (IsKeyDown(KEY_RIGHT)) {
-        go->velocity.x += 1;
+        go->velocity.x += 0.5;
     } else if (IsKeyDown(KEY_LEFT)) {
-        go->velocity.x -= 1;
+        go->velocity.x -= 0.5;
     }
 
     if (go->velocity.x > 0) {
         go->velocity.x -= 0.25;
-    } else {
+    } else if (go->velocity.x < 0) {
         go->velocity.x += 0.25;
     }
     
@@ -46,7 +41,6 @@ void samuraiUpdate(void* data) {
         sr->orientation = ORIENTATION_LEFT;
     }
 
-    printf("Velocity: %f\n", go->velocity.x);
     if (go->velocity.x == 0.0f) {
         sr->currentAnimationIndex = SAMURAI_IDLE;
     } else {
@@ -61,27 +55,27 @@ void samuraiUpdate(void* data) {
     }
 
     char buff[100];
-    sprintf(buff, "Index: %d", samurai->x);
+    sprintf(buff, "Velocity: %f", go->velocity.x);
     DrawText(buff, 20, 100, 18, BLACK);
 
     go->position = Vector2_Add(go->position, go->velocity);
+        
+    // display the animation
+    SpriteRenderer_Animate(sr);
 }
 
-Samurai_1 Samurai_1_From(int x, int y, Sprite* spriteRef) {
-    Samurai_1 s;
-    s.x = 0;
+void Samurai_1_Init(Samurai_1* s, int x, int y) {
+    s->x = 0;
 
-    s.gameObject = GameObject_From(x, y);
-    s.gameObject.update = &samuraiUpdate;
+    s->gameObject = GameObject_From(x, y);
+    s->gameObject.update = &samuraiUpdate;
+    s->gameObject.parentData = (void*) s;
     
-    s.spriteRenderer = SpriteRenderer_From("samurai_1", &s.gameObject);
-    s.spriteRenderer.scale = 5.0f;
-    s.spriteRenderer.sprite = spriteRef;
-
-    return s;
+    s->spriteRenderer = SpriteRenderer_From("samurai_1", &s->gameObject);
+    s->spriteRenderer.scale = 5.0f;
 }
 
-int main(void) {
+int main() {
     GameState game;
     game.windowWidth = GetScreenWidth();
     game.windowHeight = GetScreenHeight();
@@ -89,17 +83,15 @@ int main(void) {
 
     Scene main = Scene_From(1);
 
-    Sprite samuraiSprite = Sprite_From("samurai_1");
+    Samurai_1 s;
+    Samurai_1_Init(&s, 500, 250);
 
-    Samurai_1 s = Samurai_1_From(500, 250, &samuraiSprite);
-    s.gameObject.parentData = (void*) &s;
-    s.spriteRenderer.gameObject = &s.gameObject;
     Scene_AddGameObject(&main, &s.gameObject);
+    Scene_AddSpriteRenderer(&main, &s.spriteRenderer);
 
     GameState_InitGame(&game);
-    Sprite_LoadAnimations(&samuraiSprite);
 
-    printf("Animation length: %d\n", samuraiSprite.spriteAnimationsLength);
+    Scene_LoadSprites(&main);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -111,6 +103,6 @@ int main(void) {
         EndDrawing();
     }
 
-    Sprite_UnloadAnimations(&samuraiSprite);
+    Scene_UnloadSprites(&main);
     GameState_CloseGame(&game);
 }

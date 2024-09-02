@@ -8,8 +8,8 @@
 
 #define FILE_ROOT "tile"
 #define FILE_EXT ".png"
-#define MAX_FILE_PATH_LENGTH 400
-#define MAX_FRAME_LENGTH 30
+#define MAX_FILE_PATH_LENGTH 60
+#define MAX_FRAME_LENGTH 20
 
 typedef char FRAME_PATHS_T[MAX_FRAME_LENGTH][MAX_FILE_PATH_LENGTH];
 

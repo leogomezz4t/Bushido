@@ -87,6 +87,10 @@ void SpriteAnimation_UnloadTextures(SpriteAnimation* ani) {
 }
 
 bool SpriteAnimation_AreTexturesReady(SpriteAnimation* ani) {
+    if (ani->loadedTexturesLength < ani->frameLength) {
+        return false;
+    }
+
     for (int i = 0; i < ani->loadedTexturesLength; i++) {
         if (!IsTextureReady(ani->loadedTextures[i])) {
             return false;

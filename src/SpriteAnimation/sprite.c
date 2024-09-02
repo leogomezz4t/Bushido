@@ -40,7 +40,6 @@ Sprite Sprite_From(const char* name) {
             if (strcmp(entry->d_name, "..") == 0) {
                 continue;
             }
-            printf("Dir: %s\n", entry->d_name);
             // Create animation
             Sprite_AddAnimation(&ret, entry->d_name);            
         }
@@ -49,6 +48,17 @@ Sprite Sprite_From(const char* name) {
     closedir(dir);
 
     return ret;
+}
+
+bool Sprite_AreAllAnimationsLoaded(Sprite* s) {
+    for (int i = 0; i < s->spriteAnimationsLength; i++) {
+        SpriteAnimation* ani = s->spriteAnimations + i;
+        if (!SpriteAnimation_AreTexturesReady(ani)) {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 void Sprite_AddAnimation(Sprite* s, const char* name) {

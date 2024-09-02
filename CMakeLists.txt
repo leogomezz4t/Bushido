@@ -4,6 +4,9 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# DEBUG
+set(CMAKE_BUILD_TYPE Debug)
+
 project(Bushido VERSION 0.1)
 
 find_package(raylib 3.0 REQUIRED)

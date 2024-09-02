@@ -69,22 +69,34 @@ void SpriteRenderer_Animate(SpriteRenderer* sr) {
         // go to the next frame
         SpriteRenderer_NextFrame(sr);
     }
+    // increment frame delay counter
+    sr->_frameCounter++;
+
+    // qol
+    Texture2D frame = SpriteRenderer_GetCurrentFrame(sr);
+    Vector2 pos = SpriteRenderer_GetPosition(sr);
 
     Rectangle r = {
-        .width = SpriteRenderer_GetCurrentFrame(sr).width * sr->orientation,
-        .height = SpriteRenderer_GetCurrentFrame(sr).height,
+        .width = frame.width * sr->orientation,
+        .height = frame.height,
         .x = 0,
         .y = 0
     };
-    // Draw the texture
-    DrawTextureRec(
+
+    Rectangle d = {
+        .width = frame.width * sr->scale,
+        .height = frame.height * sr->scale,
+        .x = pos.x,
+        .y = pos.y
+    };
+
+    DrawTexturePro(
             SpriteRenderer_GetCurrentFrame(sr),
-            r,
-            SpriteRenderer_GetPosition(sr), 
+            r, 
+            d, 
+            (Vector2) {0,0},
+            0.0f,
             WHITE
     );
-
-    // increment frame delay counter
-    sr->_frameCounter++;
 }
 
