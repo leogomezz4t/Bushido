@@ -2,7 +2,7 @@
 #define GAME_ENGINE_H
 #include "scene.h"
 
-#define MAX_SCENE 20
+#define MAX_SCENES 20
 
 typedef struct {
     int windowWidth;

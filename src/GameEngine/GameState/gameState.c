@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "gameEngine.h"
+#include "gameState.h"
 #include "raylib.h"
 #include "scene.h"
 
@@ -91,10 +91,17 @@ void GameState_CloseGame(GameState* state) {
 
 // The main game loop entry point function
 void GameState_RunGame(GameState* state) {
+    // Raylib boilerplate
+    BeginDrawing();
+    ClearBackground(RAYWHITE);         
+    DrawFPS(30, 30);
     // qol
     Scene* currentScene = GameState_GetCurrentScene(state);
     // update the current scene
     Scene_Update(currentScene);
+
+    // raylib boilerplate
+    EndDrawing();
 }
 
 // Render and update the current scene

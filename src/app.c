@@ -3,7 +3,7 @@
 #include "gameObject.h"
 #include "orientation.h"
 #include "scene.h"
-#include "gameEngine.h"
+#include "gameState.h"
 #include "spriteRenderer.h"
 #include "vector2.h"
 
@@ -94,13 +94,7 @@ int main() {
     GameState_InitGame(&game);
 
     while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);         
-        DrawFPS(30, 30);
-
         GameState_RunGame(&game);
-
-        EndDrawing();
     }
 
     GameState_CloseGame(&game);
