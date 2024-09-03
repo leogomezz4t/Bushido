@@ -13,10 +13,12 @@ find_package(raylib 3.0 REQUIRED)
 
 # Add all the subdirs 
 add_subdirectory(src/GameEngine)
+add_subdirectory(src/Objects)
+add_subdirectory(src/Scenes)
 
 add_executable(Bushido src/app.c)
 
-target_link_libraries(Bushido raylib m GameEngine)
+target_link_libraries(Bushido raylib m GameEngine BushidoObjects BushidoScenes)
 
 target_include_directories(Bushido PRIVATE
                         "${PROJECT_SOURCE_DIR}/include"
