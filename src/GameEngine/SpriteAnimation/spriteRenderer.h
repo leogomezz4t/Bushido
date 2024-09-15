@@ -6,7 +6,7 @@
 #include "gameObject.h"
 #include "orientation.h"
 
-typedef struct {
+struct sprite_renderer_t {
     char spriteName[256];
     int currentAnimationIndex;
 
@@ -27,7 +27,9 @@ typedef struct {
     Vector2 positionOffset;
     float scale;
     Orientation orientation;
-} SpriteRenderer;
+};
+
+typedef struct sprite_renderer_t SpriteRenderer;
 
 SpriteAnimation* SpriteRenderer_GetCurrentSpriteAnimation(SpriteRenderer* sr);
 

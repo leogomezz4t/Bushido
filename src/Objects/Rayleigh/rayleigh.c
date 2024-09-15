@@ -39,9 +39,6 @@ void samuraiUpdate(void* data) {
     DrawText(buff, 20, 100, 18, BLACK);
 
     go->position = Vector2_Add(go->position, go->velocity);
-        
-    // display the animation
-    SpriteRenderer_Animate(sr);
 }
 
 void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
@@ -51,9 +48,12 @@ void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
     
     s->spriteRenderer = SpriteRenderer_From("samurai_1", &s->gameObject);
     s->spriteRenderer.scale = 5.0f;
+
+    // attach components
+    //
+    s->gameObject._componentSpriteRenderer = &s->spriteRenderer;
 }
 
 void SamuraiRayleigh_AttachScene(SamuraiRayleigh* samurai, Scene* scene) {
     Scene_AddGameObject(scene, &samurai->gameObject);
-    Scene_AddSpriteRenderer(scene, &samurai->spriteRenderer);
 }

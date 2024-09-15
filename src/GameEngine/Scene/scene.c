@@ -3,6 +3,8 @@
 #include "stdio.h"
 #include "spriteRenderer.h"
 #include "gameObject.h"
+#include "componentUpdates.h"
+
 #include <stdbool.h>
 #include <string.h>
 
@@ -64,6 +66,11 @@ void Scene_AddGameObject(Scene* scene, GameObject* go) {
 
     scene->gameObjects[scene->gameObjectsLength] = go;
     scene->gameObjectsLength++;
+
+    // add all components
+    if (go->_componentSpriteRenderer != NULL) {
+        Scene_AddSpriteRenderer(scene, go->_componentSpriteRenderer);
+    }
 }
 
 void Scene_AddSpriteRenderer(Scene* scene, SpriteRenderer* sr) {
@@ -110,7 +117,12 @@ void Scene_Update(Scene* scene) {
         if (!go->isActive) {
             continue;
         }
-
+        // Main object update
         go->update(go->parentData); 
+        
+        // Component updates
+        if (go->_componentSpriteRenderer != NULL) {
+            _Scene_SpriteRendererUpdate(go->_componentSpriteRenderer);
+        }
     } 
 }
