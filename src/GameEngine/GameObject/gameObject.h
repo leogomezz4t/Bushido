@@ -9,21 +9,26 @@
 struct sprite_renderer_t;
 typedef struct sprite_renderer_t SpriteRenderer;
 
+struct entity_t;
+typedef struct entity_t Entity;
+
+struct collider_t;
+typedef struct collider_t Collider;
+
 typedef struct GameObject {
     Vector2 position;
     // movement
     Vector2 velocity;
-
     // Parent struct
-    void* parentData;
-    
+    void* parentData; 
     // behaviour
     void (*update)(void*);
-
     bool isActive;
 
     // All components
     SpriteRenderer* _componentSpriteRenderer; 
+    Entity* _componentEntity;
+    Collider* _componentCollider;
 } GameObject;
 
 GameObject GameObject_From(int x, int y);

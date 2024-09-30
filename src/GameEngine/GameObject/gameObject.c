@@ -17,6 +17,8 @@ GameObject GameObject_From(int x, int y) {
 
     // default component values
     go._componentSpriteRenderer = NULL;
+    go._componentEntity = NULL;
+    go._componentCollider = NULL;
 
     return go;
 }

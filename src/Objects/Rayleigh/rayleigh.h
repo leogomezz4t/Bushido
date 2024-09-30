@@ -3,6 +3,7 @@
 
 #include "gameObject.h"
 #include "spriteRenderer.h"
+#include "collider.h"
 #include "scene.h"
 
 #define SAMURAI_IDLE 8
@@ -11,6 +12,7 @@
 typedef struct {
     GameObject gameObject;
     SpriteRenderer spriteRenderer;
+    Collider collider; 
 } SamuraiRayleigh;
 
 void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y);

@@ -1,3 +1,4 @@
+#include "collider.h"
 #include "gameObject.h"
 #include "scene.h"
 #include "spriteRenderer.h"
@@ -49,9 +50,17 @@ void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
     s->spriteRenderer = SpriteRenderer_From("samurai_1", &s->gameObject);
     s->spriteRenderer.scale = 5.0f;
 
+    s->collider = Collider_From(COLLIDER_OVERLAPPING, &s->gameObject);
+    Collider_AddHitbox(&s->collider,
+            190,
+            370,
+            100,
+            175
+    );
+
     // attach components
-    //
     s->gameObject._componentSpriteRenderer = &s->spriteRenderer;
+    s->gameObject._componentCollider = &s->collider;
 }
 
 void SamuraiRayleigh_AttachScene(SamuraiRayleigh* samurai, Scene* scene) {

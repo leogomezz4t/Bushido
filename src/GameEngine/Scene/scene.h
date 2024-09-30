@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include "gameObject.h"
+#include "collider.h"
 #include "spriteRenderer.h"
 #include <stdbool.h>
 
@@ -26,6 +27,9 @@ typedef struct {
 
     SpriteRenderer* spriteRenderers[MAX_GAME_OBJECTS_PER_SCENE];
     int spriteRenderersLength;
+
+    Collider* colliders[MAX_GAME_OBJECTS_PER_SCENE];
+    int collidersLength;
 } Scene;
 
 Scene Scene_From(const char * name);
@@ -39,6 +43,8 @@ void Scene_UnloadSprites(Scene* scene);
 Sprite* Scene_AddSprite(Scene* scene, const char* spriteName);
 
 void Scene_AddGameObject(Scene* scene, GameObject* go);
+
+void Scene_AddCollider(Scene* scene, Collider* coll);
 
 void Scene_AddSpriteRenderer(Scene* scene, SpriteRenderer* sr);
 

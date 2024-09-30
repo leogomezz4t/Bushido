@@ -22,6 +22,7 @@ Scene Scene_From(const char * name) {
 
     ret.gameObjectsLength = 0;
     ret.spriteRenderersLength = 0;
+    ret.collidersLength = 0;
 
     ret.isLoaded = false;
     
@@ -71,6 +72,18 @@ void Scene_AddGameObject(Scene* scene, GameObject* go) {
     if (go->_componentSpriteRenderer != NULL) {
         Scene_AddSpriteRenderer(scene, go->_componentSpriteRenderer);
     }
+    if (go->_componentCollider != NULL) {
+        Scene_AddCollider(scene, go->_componentCollider);
+    }
+}
+void Scene_AddCollider(Scene* scene, Collider* coll) {
+    if (scene->collidersLength >= MAX_GAME_OBJECTS_PER_SCENE) {
+        printf("Scene_AddCollider(): Tried add more than %d Colliders\n", MAX_GAME_OBJECTS_PER_SCENE);
+        return;
+    }
+
+    scene->colliders[scene->collidersLength] = coll;
+    scene->collidersLength++;
 }
 
 void Scene_AddSpriteRenderer(Scene* scene, SpriteRenderer* sr) {
@@ -123,6 +136,9 @@ void Scene_Update(Scene* scene) {
         // Component updates
         if (go->_componentSpriteRenderer != NULL) {
             _Scene_SpriteRendererUpdate(go->_componentSpriteRenderer);
+        }
+        if (go->_componentCollider != NULL) {
+            _Scene_ColliderUpdate(go->_componentCollider);
         }
     } 
 }

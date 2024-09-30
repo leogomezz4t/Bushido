@@ -11,11 +11,11 @@ int main() {
             "Bushido"
     );
 
+    // scene setups
     TestScene test = TestScene_From(&game);
     TestScene_Setup(&test);
 
     GameState_SetCurrentScene(&game, "test");
-
     GameState_InitGame(&game);
 
     while (!WindowShouldClose()) {
