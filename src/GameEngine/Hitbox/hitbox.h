@@ -18,10 +18,10 @@ struct hitbox_t {
     GameObject* gameObject;
 };
 
-typedef struct hitbox_t Hitbox;
-
 // Methods
 Hitbox Hitbox_From(float xOffset, float yOffset, int width, int height);
 
 Vector2 Hitbox_GetPosition(Hitbox* hb);
+
+bool Hitbox_OverlappingWith(Hitbox* hb, Hitbox* target);
 #endif

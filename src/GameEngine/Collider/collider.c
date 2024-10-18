@@ -2,9 +2,8 @@
 #include "stdio.h"
 #include "hitbox.h"
 
-Collider Collider_From(enum ColliderType type, GameObject* go) {
+Collider Collider_From(GameObject* go) {
     Collider col;
-    col.type = type;
     col.gameObject = go;
 
     // defaults

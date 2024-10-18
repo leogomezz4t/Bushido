@@ -15,6 +15,9 @@ typedef struct entity_t Entity;
 struct collider_t;
 typedef struct collider_t Collider;
 
+struct hitbox_t;
+typedef struct hitbox_t Hitbox;
+
 typedef struct GameObject {
     Vector2 position;
     // movement

@@ -50,13 +50,15 @@ void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
     s->spriteRenderer = SpriteRenderer_From("samurai_1", &s->gameObject);
     s->spriteRenderer.scale = 5.0f;
 
-    s->collider = Collider_From(COLLIDER_OVERLAPPING, &s->gameObject);
+    s->collider = Collider_From(&s->gameObject);
     Collider_AddHitbox(&s->collider,
             190,
             370,
             100,
             175
     );
+    // make debug
+    s->collider.hitboxes[0].debug = true;
 
     // attach components
     s->gameObject._componentSpriteRenderer = &s->spriteRenderer;

@@ -131,7 +131,9 @@ void Scene_Update(Scene* scene) {
             continue;
         }
         // Main object update
-        go->update(go->parentData); 
+        if (go->update != NULL) { // Watch for the case where the update doesnt exist.
+            go->update(go->parentData); 
+        }
         
         // Component updates
         if (go->_componentSpriteRenderer != NULL) {

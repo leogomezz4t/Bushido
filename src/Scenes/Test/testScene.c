@@ -1,6 +1,8 @@
 #include "testScene.h"
 #include "gameState.h"
 #include "rayleigh.h"
+#include "scene.h"
+#include "square.h"
 
 TestScene TestScene_From(GameState* game) {
     TestScene ret;
@@ -12,8 +14,14 @@ TestScene TestScene_From(GameState* game) {
 void TestScene_Setup(TestScene* scene) {
     // qol
     SamuraiRayleigh* player = &scene->player;
+    SquareObject* square = &scene->testSquare;
+
+    // Attach references
+    square->samuraiReference = player;
     // init player
     SamuraiRayleigh_Init(player, 500, 250);
+    SquareObject_Init(square, 200, 550, 100, 100);
     // attach it to scene
     SamuraiRayleigh_AttachScene(player, scene->scene);
+    Scene_AddGameObject(scene->scene, &square->gameObject);
 }
