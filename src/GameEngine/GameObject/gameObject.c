@@ -2,23 +2,20 @@
 #include "stdlib.h"
 
 GameObject GameObject_From(int x, int y) {
-    // initialize the default object
+    // INITIALIZE OBJECT
     GameObject go;
-
-    // set the position
-    go.position = Vector2_From(x, y);
-    // init velocity
-    go.velocity = Vector2_From(0, 0);
-
-    // default values
-    go.isActive = true;
-    go.parentData = NULL;
-    go.update = NULL;
-
-    // default component values
+    // DEFAULT COMPONENTS
     go._componentSpriteRenderer = NULL;
     go._componentEntity = NULL;
     go._componentCollider = NULL;
+    // DEFAULT VALUES
+    go.isActive = true;
+    go.parentData = NULL;
+    go.update = NULL;
+    go.velocity = Vector2_From(0, 0);
+    go.drawLayer = MAX_DRAW_LAYER;
+    // CONSTRUCTOR VALUES
+    go.position = Vector2_From(x, y);
 
     return go;
 }

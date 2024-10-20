@@ -5,6 +5,9 @@
 #include <stdbool.h>
 #include "vector2.h"
 
+// CONSTANTS
+#define MAX_DRAW_LAYER 6
+
 // forward declarations
 struct sprite_renderer_t;
 typedef struct sprite_renderer_t SpriteRenderer;
@@ -27,8 +30,9 @@ typedef struct GameObject {
     // behaviour
     void (*update)(void*);
     bool isActive;
+    int drawLayer;
 
-    // All components
+    // COMPONENTS
     SpriteRenderer* _componentSpriteRenderer; 
     Entity* _componentEntity;
     Collider* _componentCollider;
