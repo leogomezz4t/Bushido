@@ -1,9 +1,20 @@
+#include "gameObject.h"
+#include "componentUpdates.h"
 #include "hitbox.h"
 #include "spriteRenderer.h"
 #include "collider.h"
 #include "scene.h"
 #include <raylib.h>
 #include <stdio.h>
+
+void _Scene_DoAllComponentUpdates(GameObject* go) {
+    if (go->_componentSpriteRenderer != NULL) {
+        _Scene_SpriteRendererUpdate(go->_componentSpriteRenderer);
+    }
+    if (go->_componentCollider != NULL) {
+        _Scene_ColliderUpdate(go->_componentCollider);
+    }
+}
 
 void _Scene_SpriteRendererUpdate(SpriteRenderer* sr) {
     SpriteRenderer_Animate(sr);

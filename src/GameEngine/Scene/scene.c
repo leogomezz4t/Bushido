@@ -126,7 +126,9 @@ void Scene_Update(Scene* scene) {
     // iterate through the draw layers
     for (int i = 0; i < MAX_DRAW_LAYER; i++) {
         for (int j = 0; j < scene->gameObjectsLength; j++) {
+            // QUALITY OF LIFE
             GameObject* go = scene->gameObjects[j];
+
             // Filter by draw layer
             if (go->drawLayer != i) {
                 continue;
@@ -140,13 +142,8 @@ void Scene_Update(Scene* scene) {
                 go->update(go->parentData); 
             }
 
-            // Component updates
-            if (go->_componentSpriteRenderer != NULL) {
-                _Scene_SpriteRendererUpdate(go->_componentSpriteRenderer);
-            }
-            if (go->_componentCollider != NULL) {
-                _Scene_ColliderUpdate(go->_componentCollider);
-            }
+            // Update all components
+            _Scene_DoAllComponentUpdates(go);
         } 
     }
 }

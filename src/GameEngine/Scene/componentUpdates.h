@@ -2,7 +2,8 @@
 #define COMPONENT_UPDATES_H
 
 #include "spriteRenderer.h"
-#include "collider.h"
+
+void _Scene_DoAllComponentUpdates(GameObject* go);
 
 void _Scene_SpriteRendererUpdate(SpriteRenderer* sr);
 
