@@ -123,24 +123,30 @@ void Scene_UnloadSprites(Scene* scene) {
 }
 
 void Scene_Update(Scene* scene) {
-    // iterate through the layers
-    for (int j = 0; j < scene->gameObjectsLength; j++) {
-        GameObject* go = scene->gameObjects[j];
-        // dont update if not active
-        if (!go->isActive) {
-            continue;
-        }
-        // Main object update
-        if (go->update != NULL) { // Watch for the case where the update doesnt exist.
-            go->update(go->parentData); 
-        }
-        
-        // Component updates
-        if (go->_componentSpriteRenderer != NULL) {
-            _Scene_SpriteRendererUpdate(go->_componentSpriteRenderer);
-        }
-        if (go->_componentCollider != NULL) {
-            _Scene_ColliderUpdate(go->_componentCollider);
-        }
-    } 
+    // iterate through the draw layers
+    for (int i = 0; i < MAX_DRAW_LAYER; i++) {
+        for (int j = 0; j < scene->gameObjectsLength; j++) {
+            GameObject* go = scene->gameObjects[j];
+            // Filter by draw layer
+            if (go->drawLayer != i) {
+                continue;
+            }
+            // dont update if not active
+            if (!go->isActive) {
+                continue;
+            }
+            // Main object update
+            if (go->update != NULL) { // Watch for the case where the update doesnt exist.
+                go->update(go->parentData); 
+            }
+
+            // Component updates
+            if (go->_componentSpriteRenderer != NULL) {
+                _Scene_SpriteRendererUpdate(go->_componentSpriteRenderer);
+            }
+            if (go->_componentCollider != NULL) {
+                _Scene_ColliderUpdate(go->_componentCollider);
+            }
+        } 
+    }
 }
