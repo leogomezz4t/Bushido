@@ -19,4 +19,8 @@ struct collider_t {
 Collider Collider_From(GameObject* go);
 
 void Collider_AddHitbox(Collider* col, float offsetX, float offsetY, int width, int height);
+
+bool Collider_OverlappingWith(Collider* coll, Collider* target);
+
+void Collider_SetDebug(Collider* coll, bool state);
 #endif
