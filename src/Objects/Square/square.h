@@ -4,12 +4,19 @@
 #include "gameObject.h"
 #include "collider.h"
 #include "rayleigh.h"
+#include <raylib.h>
 
 typedef struct {
+    // VALUES
+    int width;
+    int height;
+
+    Color color;
+    // COMPONENTS
     GameObject gameObject;
     Collider collider;
 
-    // references
+    // REFERENCES
     SamuraiRayleigh* samuraiReference;
 } SquareObject;
 

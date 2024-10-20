@@ -8,12 +8,25 @@
 #include "scene.h"
 #include "square.h"
 
+void draw(SquareObject* sq) {
+    DrawRectangle(
+            sq->gameObject.position.x,
+            sq->gameObject.position.y,
+            sq->width,
+            sq->height,
+            sq->color
+    );
+}
+
 void update(void* data) {
+    // QUALITY OF LIFE DECLARATIONS
     SquareObject* sq = (SquareObject*) data;
     Collider* coll = &sq->collider;
     SamuraiRayleigh* samurai = sq->samuraiReference;
-
-    bool overlapping = Hitbox_OverlappingWith(coll->hitboxes + 0, samurai->collider.hitboxes + 0);
+    // FUNCTION CALLS
+    draw(sq);
+    // UPDATE
+    bool overlapping = Collider_OverlappingWith(coll, &samurai->collider);
 
     char buff[20];
     strcpy(buff, "Overlap: ");
@@ -26,6 +39,11 @@ void update(void* data) {
 }
 
 void SquareObject_Init(SquareObject* sq, int x, int y, int width, int height) {
+    // SQUARE OBJECT DEFAULT VALUES
+    sq->color = BLACK;
+    // SQUARE OBJECT INITIALIZATION
+    sq->width = width;
+    sq->height = height;
     // GAME OBJECT INITIALIZATION
     sq->gameObject = GameObject_From(x, y);
     sq->gameObject.update = &update;
@@ -39,7 +57,6 @@ void SquareObject_Init(SquareObject* sq, int x, int y, int width, int height) {
             width,
             height
     );
-    sq->collider.hitboxes[0].debug = true;
 
     // ATTACH COMPONENTS
     sq->gameObject._componentCollider = &sq->collider;
