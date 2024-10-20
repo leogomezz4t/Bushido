@@ -16,11 +16,14 @@ void TestScene_Setup(TestScene* scene) {
     SamuraiRayleigh* player = &scene->player;
     SquareObject* square = &scene->testSquare;
 
-    // Attach references
-    square->samuraiReference = player;
     // init player
     SamuraiRayleigh_Init(player, 500, 250);
     SquareObject_Init(square, 200, 550, 100, 100);
+    // Define values
+    square->gameObject.drawLayer = 1;
+
+    // Attach references
+    square->samuraiReference = player;
     // attach it to scene
     SamuraiRayleigh_AttachScene(player, scene->scene);
     Scene_AddGameObject(scene->scene, &square->gameObject);

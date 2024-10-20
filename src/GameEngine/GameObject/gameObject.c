@@ -13,7 +13,7 @@ GameObject GameObject_From(int x, int y) {
     go.parentData = NULL;
     go.update = NULL;
     go.velocity = Vector2_From(0, 0);
-    go.drawLayer = MAX_DRAW_LAYER;
+    go.drawLayer = MAX_DRAW_LAYER - 1;
     // CONSTRUCTOR VALUES
     go.position = Vector2_From(x, y);
 
