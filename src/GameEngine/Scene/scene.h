@@ -12,7 +12,7 @@
 #define MAX_SPRITE_NAME 50
 #define ID_STRING_SIZE 11
 
-typedef struct {
+struct scene_t {
     char id[ID_STRING_SIZE];
     // data
     bool isLoaded;
@@ -20,6 +20,9 @@ typedef struct {
     // sprite loading
     Sprite loadedSprites[MAX_LOADED_SPRITES];
     int loadedSpritesLength;
+
+    // Camera
+    Camera2D* currentCamera;
 
     // collections
     GameObject* gameObjects[MAX_GAME_OBJECTS_PER_SCENE];
@@ -30,9 +33,17 @@ typedef struct {
 
     Collider* colliders[MAX_GAME_OBJECTS_PER_SCENE];
     int collidersLength;
-} Scene;
+};
+
+typedef struct scene_t Scene;
 
 Scene Scene_From(const char * name);
+
+void Scene_SetGameCamera(Scene* scene, Camera2D* cam);
+
+void Scene_BeginCameraMode(Scene* scene);
+
+void Scene_EndCameraMode(Scene* scene);
 
 bool Scene_HasSprite(Scene* scene, const char* spriteName);
 

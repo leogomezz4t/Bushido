@@ -1,7 +1,7 @@
 #include "gameObject.h"
 #include "stdlib.h"
 
-GameObject GameObject_From(int x, int y) {
+GameObject GameObject_From(int x, int y, void* parentData) {
     // INITIALIZE OBJECT
     GameObject go;
     // DEFAULT COMPONENTS
@@ -10,7 +10,7 @@ GameObject GameObject_From(int x, int y) {
     go._componentCollider = NULL;
     // DEFAULT VALUES
     go.isActive = true;
-    go.parentData = NULL;
+    go.parentData = parentData;
     go.update = NULL;
     go.velocity = Vector2_From(0, 0);
     go.drawLayer = MAX_DRAW_LAYER - 1;

@@ -7,20 +7,21 @@
 #include <raylib.h>
 #include <stdio.h>
 
-void _Scene_DoAllComponentUpdates(GameObject* go) {
+void _Scene_DoAllComponentUpdates(Scene* scene, GameObject* go) {
     if (go->_componentSpriteRenderer != NULL) {
-        _Scene_SpriteRendererUpdate(go->_componentSpriteRenderer);
+        _Scene_SpriteRendererUpdate(scene, go->_componentSpriteRenderer);
     }
     if (go->_componentCollider != NULL) {
-        _Scene_ColliderUpdate(go->_componentCollider);
+        _Scene_ColliderUpdate(scene, go->_componentCollider);
     }
 }
 
-void _Scene_SpriteRendererUpdate(SpriteRenderer* sr) {
+void _Scene_SpriteRendererUpdate(Scene* scene, SpriteRenderer* sr) {
+    // Camera prelude
     SpriteRenderer_Animate(sr);
 }
 
-void _Scene_ColliderUpdate(Collider* coll) {
+void _Scene_ColliderUpdate(Scene* scene, Collider* coll) {
     // iterate through hitboxes
     for (int i = 0; i < coll->hitboxesLength; i++) {
         if (coll->hitboxes[i].debug) {

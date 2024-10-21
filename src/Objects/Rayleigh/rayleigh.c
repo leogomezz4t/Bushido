@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "rayleigh.h"
 
-void samuraiUpdate(void* data) {
+void samuraiUpdate(void* data, Scene* scene) {
     SamuraiRayleigh* samurai = (SamuraiRayleigh*) data;
     SpriteRenderer* sr = &samurai->spriteRenderer;
     GameObject* go = &samurai->gameObject;
@@ -35,17 +35,18 @@ void samuraiUpdate(void* data) {
         sr->currentAnimationIndex = SAMURAI_RUN;
     }
 
+    Scene_EndCameraMode(scene);
     char buff[100];
     sprintf(buff, "Velocity: %f", go->velocity.x);
     DrawText(buff, 20, 100, 18, BLACK);
+    Scene_BeginCameraMode(scene);
 
     go->position = Vector2_Add(go->position, go->velocity);
 }
 
 void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
-    s->gameObject = GameObject_From(x, y);
+    s->gameObject = GameObject_From(x, y, (void*) s);
     s->gameObject.update = &samuraiUpdate;
-    s->gameObject.parentData = (void*) s;
     
     s->spriteRenderer = SpriteRenderer_From("samurai_1", &s->gameObject);
     s->spriteRenderer.scale = 5.0f;

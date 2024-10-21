@@ -5,6 +5,7 @@
 #include "gameObject.h"
 #include "componentUpdates.h"
 
+#include <raylib.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -31,6 +32,26 @@ Scene Scene_From(const char * name) {
 
 void Scene_Load(Scene* scene) {
 
+}
+
+void Scene_SetGameCamera(Scene* scene, Camera2D* cam) {
+    if (cam == NULL) {
+        printf("WARNING: Set scene game camera to NULL\n");
+    }
+    
+    scene->currentCamera = cam;
+}
+
+void Scene_BeginCameraMode(Scene* scene) {
+    if (scene->currentCamera == NULL) {
+        printf("Cannot use camera mode if no camera is set\n");
+        return;
+    }
+    BeginMode2D(*scene->currentCamera);
+}
+
+void Scene_EndCameraMode(Scene* scene) {
+    EndMode2D();
 }
 
 bool Scene_HasSprite(Scene* scene, const char* spriteName) {
@@ -123,6 +144,8 @@ void Scene_UnloadSprites(Scene* scene) {
 }
 
 void Scene_Update(Scene* scene) {
+    // Camera prelude
+    Scene_BeginCameraMode(scene);
     // iterate through the draw layers
     for (int i = 0; i < MAX_DRAW_LAYER; i++) {
         for (int j = 0; j < scene->gameObjectsLength; j++) {
@@ -139,11 +162,13 @@ void Scene_Update(Scene* scene) {
             }
             // Main object update
             if (go->update != NULL) { // Watch for the case where the update doesnt exist.
-                go->update(go->parentData); 
+                go->update(go->parentData, scene); 
             }
 
             // Update all components
-            _Scene_DoAllComponentUpdates(go);
+            _Scene_DoAllComponentUpdates(scene, go);
         } 
     }
+    // Camera postlude
+    Scene_EndCameraMode(scene);
 }

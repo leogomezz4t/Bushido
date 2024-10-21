@@ -12,7 +12,6 @@ find_package(raylib 3.0 REQUIRED)
 # Add all the subdirs 
 add_subdirectory(Types)
 add_subdirectory(GameObject)
-add_subdirectory(GameCamera)
 add_subdirectory(Scene)
 add_subdirectory(SpriteAnimation)
 add_subdirectory(Entity)
@@ -22,7 +21,7 @@ add_subdirectory(GameState)
 
 add_library(GameEngine STATIC empty.c)
 
-target_link_libraries(GameEngine raylib m Types GameObject GameCamera Scene SpriteAnimation Entity Hitbox Collider GameState)
+target_link_libraries(GameEngine raylib m Types GameObject Scene SpriteAnimation Entity Hitbox Collider GameState)
 
 #target_include_directories(GameEngine PUBLIC
 #                        "${PROJECT_SOURCE_DIR}"

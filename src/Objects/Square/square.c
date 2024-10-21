@@ -18,7 +18,7 @@ void draw(SquareObject* sq) {
     );
 }
 
-void update(void* data) {
+void squareUpdate(void* data, Scene* scene) {
     // QUALITY OF LIFE DECLARATIONS
     SquareObject* sq = (SquareObject*) data;
     Collider* coll = &sq->collider;
@@ -35,7 +35,10 @@ void update(void* data) {
     } else {
         strcat(buff, "False\n");
     }
+
+    Scene_EndCameraMode(scene);
     DrawText(buff, 25, 600, 12, BLACK);
+    Scene_BeginCameraMode(scene);
 }
 
 void SquareObject_Init(SquareObject* sq, int x, int y, int width, int height) {
@@ -45,9 +48,8 @@ void SquareObject_Init(SquareObject* sq, int x, int y, int width, int height) {
     sq->width = width;
     sq->height = height;
     // GAME OBJECT INITIALIZATION
-    sq->gameObject = GameObject_From(x, y);
-    sq->gameObject.update = &update;
-    sq->gameObject.parentData = (void*) sq;
+    sq->gameObject = GameObject_From(x, y, (void*) sq);
+    sq->gameObject.update = &squareUpdate;
 
     // COLLIDER INITIALIZATION
     sq->collider = Collider_From(&sq->gameObject);

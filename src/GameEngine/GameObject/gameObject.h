@@ -9,6 +9,9 @@
 #define MAX_DRAW_LAYER 6
 
 // forward declarations
+struct scene_t;
+typedef struct scene_t Scene;
+
 struct sprite_renderer_t;
 typedef struct sprite_renderer_t SpriteRenderer;
 
@@ -28,7 +31,7 @@ typedef struct GameObject {
     // Parent struct
     void* parentData; 
     // behaviour
-    void (*update)(void*);
+    void (*update)(void*, Scene*);
     bool isActive;
     int drawLayer;
 
@@ -38,6 +41,6 @@ typedef struct GameObject {
     Collider* _componentCollider;
 } GameObject;
 
-GameObject GameObject_From(int x, int y);
+GameObject GameObject_From(int x, int y, void* parentData);
 
 #endif
