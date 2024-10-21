@@ -1,4 +1,5 @@
 #include "testScene.h"
+#include "collider.h"
 #include "gameState.h"
 #include "rayleigh.h"
 #include "scene.h"
@@ -21,6 +22,8 @@ void TestScene_Setup(TestScene* scene) {
     SquareObject_Init(square, 200, 550, 100, 100);
     // Define values
     square->gameObject.drawLayer = 1;
+    Collider_SetDebug(&player->collider, true);
+    Collider_SetDebug(&square->collider, true);
 
     // Attach references
     square->samuraiReference = player;

@@ -57,8 +57,6 @@ void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
             100,
             175
     );
-    // make debug
-    s->collider.hitboxes[0].debug = true;
 
     // attach components
     s->gameObject._componentSpriteRenderer = &s->spriteRenderer;
