@@ -7,9 +7,16 @@
 #include "trackingCamera.h"
 #include <raylib.h>
 
+void testSceneUpdate(Scene* scene) {
+    Camera2D* cam = scene->currentCamera;
+    // Draw dot at origin
+    DrawCircle(cam->target.x, cam->target.y, 10, RED);
+}
+
 TestScene TestScene_From(GameState* game) {
     TestScene ret;
     ret.scene = GameState_CreateScene(game, "test");
+    ret.scene->customUpdate = testSceneUpdate;
 
     return ret;
 }
@@ -25,6 +32,7 @@ void TestScene_Setup(TestScene* scene) {
     SquareObject_Init(square, 200, 550, 100, 100);
     TrackingCamera_Init(mainCam, &player->gameObject);
     // Define values
+    mainCam->camera.offset = (Vector2) {725, 200};
     square->gameObject.drawLayer = 1;
     Collider_SetDebug(&player->collider, true);
     Collider_SetDebug(&square->collider, true);
