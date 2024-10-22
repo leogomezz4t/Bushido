@@ -17,6 +17,8 @@ struct scene_t {
     // data
     bool isLoaded;
 
+    void (*customUpdate) (struct scene_t*);
+
     // sprite loading
     Sprite loadedSprites[MAX_LOADED_SPRITES];
     int loadedSpritesLength;

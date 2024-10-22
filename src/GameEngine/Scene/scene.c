@@ -11,21 +11,24 @@
 
 Scene Scene_From(const char * name) {
     Scene ret;
+
+    // DEFAULT VALUES
+    ret.customUpdate = NULL;
+
+    ret.loadedSpritesLength = 0;
+    ret.gameObjectsLength = 0;
+    ret.spriteRenderersLength = 0;
+    ret.collidersLength = 0;
+
+    ret.isLoaded = false;
+
+    // SCENE CONSTRUCTOR
     // check the name length
     if (strlen(name) >= ID_STRING_SIZE) {
         printf("Scene_From(): Tried using a name the exceed the max id size. Used name %s\n", name);
     } else {
         strcpy(ret.id, name);
     }
-
-    // scene loading
-    ret.loadedSpritesLength = 0;
-
-    ret.gameObjectsLength = 0;
-    ret.spriteRenderersLength = 0;
-    ret.collidersLength = 0;
-
-    ret.isLoaded = false;
     
     return ret;
 }
@@ -169,6 +172,12 @@ void Scene_Update(Scene* scene) {
             _Scene_DoAllComponentUpdates(scene, go);
         } 
     }
+
+    // Run the user update
+    if (scene->customUpdate != NULL) {
+        scene->customUpdate(scene);
+    }
+
     // Camera postlude
     Scene_EndCameraMode(scene);
 }
