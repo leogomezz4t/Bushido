@@ -94,11 +94,12 @@ void GameState_RunGame(GameState* state) {
     // Raylib boilerplate
     BeginDrawing();
     ClearBackground(RAYWHITE);         
-    DrawFPS(30, 30);
     // qol
     Scene* currentScene = GameState_GetCurrentScene(state);
     // update the current scene
     Scene_Update(currentScene);
+
+    DrawFPS(30, 30);
 
     // raylib boilerplate
     EndDrawing();
