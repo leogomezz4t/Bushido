@@ -15,6 +15,7 @@ Scene Scene_From(const char * name) {
     // DEFAULT VALUES
     ret.customUpdate = NULL;
 
+    ret.loadedTexturesLength = 0;
     ret.loadedSpritesLength = 0;
     ret.gameObjectsLength = 0;
     ret.spriteRenderersLength = 0;
@@ -34,7 +35,8 @@ Scene Scene_From(const char * name) {
 }
 
 void Scene_Load(Scene* scene) {
-
+    Scene_LoadTextures(scene);
+    Scene_LoadSprites(scene);
 }
 
 void Scene_SetGameCamera(Scene* scene, Camera2D* cam) {
@@ -99,6 +101,11 @@ void Scene_AddGameObject(Scene* scene, GameObject* go) {
     if (go->_componentCollider != NULL) {
         Scene_AddCollider(scene, go->_componentCollider);
     }
+
+    // Run callback
+    if (go->onSceneAttach != NULL) {
+        go->onSceneAttach(go->parentData, scene);
+    }
 }
 void Scene_AddCollider(Scene* scene, Collider* coll) {
     if (scene->collidersLength >= MAX_GAME_OBJECTS_PER_SCENE) {
@@ -143,6 +150,37 @@ void Scene_UnloadSprites(Scene* scene) {
         if (Sprite_AreAllAnimationsLoaded(currentSprite)) {
             Sprite_UnloadAnimations(currentSprite);
         }
+    }
+}
+
+Texture2D* Scene_AddTexture(Scene* scene, const char* filepath) {
+    // Test for bounds
+    if (scene->loadedTexturesLength == MAX_LOADED_TEXTURES) {
+        printf("Scene_AddTexture(): Tried to add more than the max loaded textures of %d\n", MAX_LOADED_TEXTURES);
+        return NULL;
+    }
+
+    // Add filepath to textures
+    scene->texturesToLoad[scene->loadedTexturesLength] = filepath;    
+    // save position
+    int pos = scene->loadedTexturesLength;
+    // increment length
+    scene->loadedTexturesLength++;
+
+    // return the equivalent pointer
+    return scene->loadedTextures + pos;
+}
+
+void Scene_LoadTextures(Scene* scene) {
+    for (int i = 0; i < scene->loadedTexturesLength; i++) {
+        const char* filepathToLoad = scene->texturesToLoad[i];
+        scene->loadedTextures[i] = LoadTexture(filepathToLoad);
+    }
+}
+
+void Scene_UnloadTexture(Scene* scene) {
+    for (int i = 0; i < scene->loadedTexturesLength; i++) {
+        UnloadTexture(scene->loadedTextures[i]);
     }
 }
 
