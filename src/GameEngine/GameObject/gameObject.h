@@ -30,10 +30,12 @@ typedef struct GameObject {
     Vector2 velocity;
     // Parent struct
     void* parentData; 
-    // behaviour
-    void (*update)(void*, Scene*);
+    // Behaviour
     bool isActive;
     int drawLayer;
+    // CALLBACK FUNCTIONS
+    void (*update)(void*, Scene*);
+    void (*onSceneAttach)(void*, Scene*);
 
     // COMPONENTS
     SpriteRenderer* _componentSpriteRenderer; 

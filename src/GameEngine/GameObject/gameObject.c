@@ -12,6 +12,7 @@ GameObject GameObject_From(int x, int y, void* parentData) {
     go.isActive = true;
     go.parentData = parentData;
     go.update = NULL;
+    go.onSceneAttach = NULL;
     go.velocity = Vector2_From(0, 0);
     go.drawLayer = MAX_DRAW_LAYER - 1;
     // CONSTRUCTOR VALUES
