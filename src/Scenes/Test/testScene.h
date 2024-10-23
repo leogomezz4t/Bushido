@@ -6,11 +6,13 @@
 #include "scene.h"
 #include "square.h"
 #include "trackingCamera.h"
+#include "parallaxBackground.h"
 
 typedef struct {
     SamuraiRayleigh player;    
     SquareObject testSquare;
     TrackingCamera mainCamera;
+    ParallaxBackground background;
 
     Scene* scene;
 } TestScene;
