@@ -19,11 +19,11 @@ void parallaxBackgroundUpdate(void* data, Scene* scene) {
     ParallaxBackground* bg = (ParallaxBackground*) data;
     
     // Draw all the copies
-    for (int i = 0; i < bg->numCopies; i++) {
-        Vector2 baseInitialPos = {bg->initialPosition.x + (i * bg->backLayerTexture->width), bg->initialPosition.y};
-        int baseDist = scene->currentCamera->target.x - baseInitialPos.x;
-        // Draw each layer
-        for (int j = 0; j < 3; j++) {
+    for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < bg->numCopies; i++) {
+            Vector2 baseInitialPos = {bg->initialPosition.x + (i * bg->backLayerTexture->width * bg->scale), bg->initialPosition.y};
+            int baseDist = scene->currentCamera->target.x - baseInitialPos.x;
+            // Draw each layer
             if (j == 0) {
                 // BACK LAYER
                 DrawTextureEx(*bg->backLayerTexture,
@@ -53,7 +53,7 @@ void parallaxBackgroundUpdate(void* data, Scene* scene) {
 
 void ParallaxBackground_Init(ParallaxBackground* bg, int x, int y) {
     // PARALLAX BACKGROUND DEFAULT VALUES
-    bg->numCopies = 1;
+    bg->numCopies = 3;
     bg->offset = (Vector2) {0, 0};
     bg->scale = 5;
     // PARALLAX BACKGROUND INITIALIZATION
