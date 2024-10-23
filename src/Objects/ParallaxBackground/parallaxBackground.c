@@ -55,7 +55,7 @@ void ParallaxBackground_Init(ParallaxBackground* bg, int x, int y) {
     // PARALLAX BACKGROUND DEFAULT VALUES
     bg->numCopies = 3;
     bg->offset = (Vector2) {0, 0};
-    bg->scale = 5;
+    bg->scale = 6;
     // PARALLAX BACKGROUND INITIALIZATION
     bg->initialPosition = (Vector2) {x, y};
 
