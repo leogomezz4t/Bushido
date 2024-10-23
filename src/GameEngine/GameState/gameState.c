@@ -30,7 +30,7 @@ void GameState_InitGame(GameState* state) {
     SetTargetFPS(60);
 
     // Load resources with OpenGL context
-    Scene_LoadSprites(
+    Scene_Load(
             GameState_GetCurrentScene(state)
     );
 }
