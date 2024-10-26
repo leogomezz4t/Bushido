@@ -64,4 +64,5 @@ void ParallaxBackground_Init(ParallaxBackground* bg, int x, int y) {
     bg->gameObject.drawLayer = 0;
     bg->gameObject.update = parallaxBackgroundUpdate;
     bg->gameObject.onSceneAttach = parallaxBackgroundScene;
+    GameObject_SetParentType(&bg->gameObject, PARALLAX_BACKGROUND_TYPE);
 }

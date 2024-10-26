@@ -44,6 +44,7 @@ void TrackingCamera_Init(TrackingCamera* cam, GameObject* target) {
     // GAME OBJECT INITIALIZATION
     cam->gameObject = GameObject_From(target->position.x, target->position.y, (void*) cam);
     cam->gameObject.update = trackingUpdate;
+    GameObject_SetParentType(&cam->gameObject, TRACKING_CAMERA_TYPE);
 
     // CAMERA2D INITIALIZATION
     cam->camera.zoom = 1.0f;

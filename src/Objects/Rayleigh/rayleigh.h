@@ -9,6 +9,8 @@
 #define SAMURAI_IDLE 8
 #define SAMURAI_RUN 2
 
+#define RAYLEIGH_TYPE "rayleigh"
+
 typedef struct {
     GameObject gameObject;
     SpriteRenderer spriteRenderer;

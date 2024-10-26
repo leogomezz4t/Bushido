@@ -6,6 +6,8 @@
 #include "rayleigh.h"
 #include <raylib.h>
 
+#define SQUARE_TYPE "square_object"
+
 typedef struct {
     // VALUES
     int width;
@@ -15,9 +17,6 @@ typedef struct {
     // COMPONENTS
     GameObject gameObject;
     Collider collider;
-
-    // REFERENCES
-    SamuraiRayleigh* samuraiReference;
 } SquareObject;
 
 void SquareObject_Init(SquareObject* sq, int x, int y, int width, int height);

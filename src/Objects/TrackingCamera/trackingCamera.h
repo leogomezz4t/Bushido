@@ -4,6 +4,8 @@
 #include "gameObject.h"
 #include "raylib.h"
 
+#define TRACKING_CAMERA_TYPE "tracking_cam"
+
 struct tracking_camera_t {
     // VALUES
     float dampingStrength;

@@ -5,6 +5,8 @@
 #include "spriteRenderer.h"
 #include <raylib.h>
 
+#define PARALLAX_BACKGROUND_TYPE "parallax"
+
 enum BackgroundType {
     BACK,
     MID,
