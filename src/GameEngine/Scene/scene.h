@@ -7,7 +7,6 @@
 #include <stdbool.h>
 
 #define MAX_GAME_OBJECTS_PER_SCENE 200
-#define MAX_LAYER 5
 #define MAX_LOADED_SPRITES 20
 #define MAX_SPRITE_NAME 50
 #define ID_STRING_SIZE 11
@@ -49,6 +48,8 @@ Scene Scene_From(const char * name);
 
 void Scene_Load(Scene* scene);
 
+void Scene_Unload(Scene* scene);
+
 void Scene_SetGameCamera(Scene* scene, Camera2D* cam);
 
 void Scene_BeginCameraMode(Scene* scene);
@@ -75,7 +76,7 @@ Texture2D* Scene_AddTexture(Scene* scene, const char* filepath);
 
 void Scene_LoadTextures(Scene* scene);
 
-void Scene_UnloadTexture(Scene* scene);
+void Scene_UnloadTextures(Scene* scene);
 
 void Scene_Update(Scene* scene);
 

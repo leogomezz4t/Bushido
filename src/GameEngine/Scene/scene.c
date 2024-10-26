@@ -40,6 +40,25 @@ void Scene_Load(Scene* scene) {
     Scene_LoadSprites(scene);
 }
 
+void Scene_Unload(Scene* scene) {
+    // Unload scene
+    Scene_UnloadTextures(scene);
+    Scene_UnloadSprites(scene);
+
+    // Unload each game object
+    for (int i = 0; i < scene->gameObjectsLength; i++) {
+        GameObject* curr = scene->gameObjects[i];
+        
+        // Check for null
+        if (curr->cleanup == NULL) {
+            continue;
+        }
+
+        // Call cleanup
+        curr->cleanup(curr->parentData, scene);
+    }
+}
+
 void Scene_SetGameCamera(Scene* scene, Camera2D* cam) {
     if (cam == NULL) {
         printf("WARNING: Set scene game camera to NULL\n");
@@ -211,7 +230,7 @@ void Scene_LoadTextures(Scene* scene) {
     }
 }
 
-void Scene_UnloadTexture(Scene* scene) {
+void Scene_UnloadTextures(Scene* scene) {
     for (int i = 0; i < scene->loadedTexturesLength; i++) {
         UnloadTexture(scene->loadedTextures[i]);
     }
