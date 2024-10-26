@@ -46,6 +46,7 @@ typedef struct GameObject {
     // CALLBACK FUNCTIONS
     void (*update)(void*, Scene*);
     void (*onSceneAttach)(void*, Scene*);
+    void (*cleanup)(void*, Scene*);
 
     // COMPONENTS
     SpriteRenderer* _componentSpriteRenderer; 
