@@ -3,7 +3,6 @@
 
 #include "gameObject.h"
 #include "collider.h"
-#include "rayleigh.h"
 #include <raylib.h>
 
 #define SQUARE_TYPE "square_object"
