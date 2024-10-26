@@ -5,6 +5,7 @@
 #include "spriteRenderer.h"
 #include "collider.h"
 #include "scene.h"
+#include "square.h"
 
 #define SAMURAI_IDLE 8
 #define SAMURAI_RUN 2
@@ -12,6 +13,12 @@
 #define RAYLEIGH_TYPE "rayleigh"
 
 typedef struct {
+    // VALUES
+    Vector2 centerOffset;
+    // COLLECTIONS
+    SquareObject* squares[50];
+    int squaresLength;
+    // COMPONENTS
     GameObject gameObject;
     SpriteRenderer spriteRenderer;
     Collider collider; 
