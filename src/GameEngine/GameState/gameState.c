@@ -80,9 +80,8 @@ void GameState_SetCurrentScene(GameState* state, const char* sceneName) {
 // Cleanup game
 void GameState_CloseGame(GameState* state) {
     // Clean up resources
-    Scene_UnloadSprites(
-            GameState_GetCurrentScene(state)
-    );
+    Scene* currentScene = GameState_GetCurrentScene(state);
+    Scene_Unload(currentScene);
 
     // Free scenes array
     free(state->allScenes);
