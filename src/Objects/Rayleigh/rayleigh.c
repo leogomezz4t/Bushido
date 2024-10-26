@@ -64,20 +64,55 @@ void samuraiUpdate(void* data, Scene* scene) {
     DrawCircleV(centerPos, 3.0f, BLACK);
 
     Collider* overlappingColls[10];
-    int overlapLength = Scene_GetOverlappingColliders(scene, coll, overlappingColls, 10); 
+    int overlapLength;
 
-    char buff[500];
+    // Collision check
+    // X COMPONENT
+    if (!samurai->noClip) {
+        go->position.x += go->velocity.x;
+        overlapLength = Scene_GetOverlappingColliders(scene, coll, overlappingColls, 10); 
+        for (int i = 0; i < overlapLength; i++) {
+            GameObject* curr = overlappingColls[i]->gameObject;
+            if (GameObject_HasTag(curr, "wall")) {
+                // collision has happened
+                go->position.x -= go->velocity.x;
+                break;
+            }
+        }
+        // Y COMPONENT
+        go->position.y += go->velocity.y;
+        overlapLength = Scene_GetOverlappingColliders(scene, coll, overlappingColls, 10);
+        for (int i = 0; i < overlapLength; i++) {
+            GameObject* curr = overlappingColls[i]->gameObject;
+            if (GameObject_HasTag(curr, "wall")) {
+                // collision has happneed
+                go->position.y -= go->velocity.y;
+                break;
+            }
+        }
+    } else {
+        go->position = Vector2_Add(go->position, go->velocity);
+    }
+    /*
+    char buff[1000];
     strcpy(buff, "Overlapping objects\n");
     for (int i = 0; i < overlapLength; i++) {
         GameObject* collidingObject = overlappingColls[i]->gameObject;
-        char b[100];
-        sprintf(b, "%d: GameObject | type: %s\n", i+1, collidingObject->parentType);
+        char b[250];
+        sprintf(b, "%d: GameObject | type: %s | tags: ", i+1, collidingObject->parentType);
+        for (int j = 0; j < collidingObject->tagsLength; j++) {
+            char c[50]; 
+            sprintf(c, "%s ", collidingObject->tags[j]);
+            strcat(b, c);
+        }
         strcat(buff, b);
     }
 
     Scene_EndCameraMode(scene);
     DrawText(buff, 25, 600, 12, BLACK);
     Scene_BeginCameraMode(scene);
+    */
+
 
     // Tomfoolery
     if (IsKeyPressed(KEY_SPACE)) {
@@ -94,13 +129,26 @@ void samuraiUpdate(void* data, Scene* scene) {
         }
     }
 
-    go->position = Vector2_Add(go->position, go->velocity);
+    if (IsKeyPressed(KEY_C)) {
+        if (samurai->noClip) {
+            samurai->noClip = false;
+        } else {
+            samurai->noClip = true;
+        }
+    }
+
+    char cb[100];
+    sprintf(cb, "No clip: %d", samurai->noClip);
+    Scene_EndCameraMode(scene);
+    DrawText(cb, 25, 300, 12, BLACK);
+    Scene_BeginCameraMode(scene);
 }
 
 void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
     // RAYLEIGH DEFAULT VALUES
     s->squaresLength = 0;
     s->centerOffset = (Vector2) {250, 425};
+    s->noClip = false;
     // GAME OBJECT INITIALIZATION
     s->gameObject = GameObject_From(x, y, (void*) s);
     s->gameObject.update = &samuraiUpdate;

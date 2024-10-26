@@ -6,6 +6,7 @@
 #include "collider.h"
 #include "scene.h"
 #include "square.h"
+#include <stdbool.h>
 
 #define SAMURAI_IDLE 8
 #define SAMURAI_RUN 2
@@ -15,6 +16,7 @@
 typedef struct {
     // VALUES
     Vector2 centerOffset;
+    bool noClip;
     // COLLECTIONS
     SquareObject* squares[50];
     int squaresLength;
