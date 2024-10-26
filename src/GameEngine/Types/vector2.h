@@ -9,4 +9,6 @@ double Vector2_Dist(Vector2 a, Vector2 b);
 
 Vector2 Vector2_Add(Vector2 a, Vector2 b);
 
+Vector2 Vector2_Subtract(Vector2 a, Vector2 b);
+
 #endif
