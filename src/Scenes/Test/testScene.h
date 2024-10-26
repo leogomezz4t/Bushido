@@ -10,7 +10,6 @@
 
 typedef struct {
     SamuraiRayleigh player;    
-    SquareObject testSquare;
     TrackingCamera mainCamera;
     ParallaxBackground background;
 

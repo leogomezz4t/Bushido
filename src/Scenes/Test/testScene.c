@@ -25,7 +25,6 @@ TestScene TestScene_From(GameState* game) {
 void TestScene_Setup(TestScene* scene) {
     // qol
     SamuraiRayleigh* player = &scene->player;
-    SquareObject* square = &scene->testSquare;
     TrackingCamera* mainCam = &scene->mainCamera;
     ParallaxBackground* bg = &scene->background;
 
