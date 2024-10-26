@@ -44,6 +44,8 @@ void GameObject_AddTag(GameObject* go, const char* tag) {
 
     // Add tag at length index
     strcpy(go->tags[go->tagsLength], tag);
+    // increment lengths
+    go->tagsLength++;
 }
 
 bool GameObject_HasTag(GameObject* go, const char* tag) {
