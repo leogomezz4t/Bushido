@@ -67,6 +67,8 @@ void Scene_AddGameObject(Scene* scene, GameObject* go);
 
 void Scene_AddCollider(Scene* scene, Collider* coll);
 
+int Scene_GetOverlappingColliders(Scene* scene, Collider* coll, Collider** results, int resultsLength);
+
 void Scene_AddSpriteRenderer(Scene* scene, SpriteRenderer* sr);
 
 Texture2D* Scene_AddTexture(Scene* scene, const char* filepath);

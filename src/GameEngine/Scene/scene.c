@@ -1,4 +1,5 @@
 #include "scene.h"
+#include "collider.h"
 #include "sprite.h"
 #include "stdio.h"
 #include "spriteRenderer.h"
@@ -115,6 +116,38 @@ void Scene_AddCollider(Scene* scene, Collider* coll) {
 
     scene->colliders[scene->collidersLength] = coll;
     scene->collidersLength++;
+}
+
+int Scene_GetOverlappingColliders(Scene* scene, Collider* coll, Collider** results, int resultsLength) {
+    // check for zero length results length
+    if (resultsLength == 0) {
+        printf("Scene_GetOverlappingObjects(): Passed in results array of length 0\n");
+        return 0;
+    }
+    int resultsIndex = 0;
+    // iterate through the scenes colliders
+    for (int i = 0; i < scene->collidersLength; i++) {
+        Collider* currentColl = scene->colliders[i];
+        // Dont test against self
+        if (currentColl == coll) {
+            continue;
+        }
+
+        // Check for overlap
+        if (Collider_OverlappingWith(coll, currentColl)) {
+            // assign result element
+            results[resultsIndex] = currentColl;
+            // increment index
+            resultsIndex++;
+            // Make sure we dont go over bounds of results
+            if (resultsIndex >= resultsLength) {
+                printf("Scene_GetOverlappingObjects(): Results array to small to contain all results\n");
+                return resultsIndex;
+            }
+        }
+    }
+
+    return resultsIndex;
 }
 
 void Scene_AddSpriteRenderer(Scene* scene, SpriteRenderer* sr) {
