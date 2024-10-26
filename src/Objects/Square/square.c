@@ -39,6 +39,7 @@ void SquareObject_Init(SquareObject* sq, int x, int y, int width, int height) {
     sq->gameObject.update = &squareUpdate;
     sq->gameObject.drawLayer = 1;
     GameObject_SetParentType(&sq->gameObject, SQUARE_TYPE);
+    GameObject_AddTag(&sq->gameObject, "wall");
     // COLLIDER INITIALIZATION
     sq->collider = Collider_From(&sq->gameObject);
     Collider_AddHitbox(&sq->collider,
