@@ -28,8 +28,8 @@ void trackingUpdate(void* data, Scene* scene) {
     if (camera2d->target.y < follow->position.y) {
         camera2d->target.y += yDist * trackingCamera->dampingStrength;
     }
-    if (camera2d->target.y < follow->position.y) {
-        camera2d->target.y += yDist * trackingCamera->dampingStrength;
+    if (camera2d->target.y > follow->position.y) {
+        camera2d->target.y -= yDist * trackingCamera->dampingStrength;
     }
 }
 
