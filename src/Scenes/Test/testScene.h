@@ -4,11 +4,12 @@
 #include "rayleigh.h"
 #include "gameState.h"
 #include "scene.h"
-#include "square.h"
+#include "testMap.h"
 #include "trackingCamera.h"
 #include "parallaxBackground.h"
 
 typedef struct {
+    TestMap map;
     SamuraiRayleigh player;    
     TrackingCamera mainCamera;
     ParallaxBackground background;
