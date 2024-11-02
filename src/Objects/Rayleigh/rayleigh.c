@@ -30,6 +30,8 @@ void samuraiUpdate(void* data, Scene* scene) {
     // movement
     // reset
     go->velocity = (Vector2) {0, 0};
+    // Gravity
+    go->velocity.y += 10;
     int speed = 10;
     if (IsKeyDown(KEY_RIGHT)) {
         go->velocity.x += speed;
@@ -43,9 +45,6 @@ void samuraiUpdate(void* data, Scene* scene) {
         go->velocity.y -= speed;
     }
 
-    if (IsKeyDown(KEY_DOWN)) {
-        go->velocity.y += speed;
-    }
     
     if (go->velocity.x > 0) {
         sr->orientation = ORIENTATION_RIGHT;
