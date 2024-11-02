@@ -14,6 +14,9 @@ void testMapScene(void* data, Scene* scene) {
 void testMapUpdate(void* data, Scene* scene) {
     // QUALITY OF LIFE
     TestMap* testMap = (TestMap*) data;
+    // Update hitbox
+    testMap->collider.hitboxes[0].width = testMap->imageTexture->width * testMap->scale;
+    testMap->collider.hitboxes[0].height = testMap->imageTexture->height * testMap->scale;
     //
     DrawTextureEx(*testMap->imageTexture, testMap->gameObject.position, 0.0f, testMap->scale, WHITE);
 }
@@ -27,8 +30,11 @@ void TestMap_Init(TestMap* testMap, int x, int y, const char* filepath) {
     testMap->gameObject = GameObject_From(x, y, (void*) testMap);
     testMap->gameObject.update = testMapUpdate;
     testMap->gameObject.onSceneAttach = testMapScene;
+    GameObject_AddTag(&testMap->gameObject, "wall");
     // COLLIDER INITIALIZATION
     testMap->collider = Collider_From(&testMap->gameObject);
+    Collider_AddHitbox(&testMap->collider, 0, 300, 1000, 400);
+    Collider_SetDebug(&testMap->collider, true);
     // ATTACH COMPONENTS
     testMap->gameObject._componentCollider = &testMap->collider;
 }
