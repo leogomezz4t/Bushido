@@ -5,8 +5,8 @@
 #include "square.h"
 #include "vector2.h"
 #include <stdlib.h>
-#include <raylib.h>
 #include <string.h>
+#include <raylib.h>
 #include <stdio.h>
 #include "rayleigh.h"
 
@@ -21,35 +21,13 @@ void samuraiCleanup(void* data, Scene* scene) {
     }
 }
 
-void samuraiUpdate(void* data, Scene* scene) {
-    SamuraiRayleigh* samurai = (SamuraiRayleigh*) data;
-    SpriteRenderer* sr = &samurai->spriteRenderer;
-    Collider* coll = &samurai->collider;
+void samuraiDefaultAnimation(SamuraiRayleigh* samurai) {
+    // QUALITY OF LIFE
     GameObject* go = &samurai->gameObject;
+    SpriteRenderer* sr = &samurai->spriteRenderer;
 
-    // movement
-    // reset
-    go->velocity = (Vector2) {0, 0};
-    // Gravity
-    go->velocity.y += 10;
-    int speed = 10;
-    if (IsKeyDown(KEY_RIGHT)) {
-        go->velocity.x += speed;
-    }
-
-    if (IsKeyDown(KEY_LEFT)) {
-        go->velocity.x -= speed;
-    }
-
-    if (IsKeyDown(KEY_UP)) {
-        go->velocity.y -= speed;
-    }
-
-    
-    if (go->velocity.x > 0) {
-        sr->orientation = ORIENTATION_RIGHT;
-    } else if (go->velocity.x < 0) {
-        sr->orientation = ORIENTATION_LEFT;
+    if (samurai->blockingDefaultAnimation) {
+        return;
     }
 
     if (go->velocity.x == 0.0f) {
@@ -57,42 +35,91 @@ void samuraiUpdate(void* data, Scene* scene) {
     } else {
         sr->currentAnimationIndex = SAMURAI_RUN;
     }
+}
 
-    // DRAW CENTER POINT
-    Vector2 centerPos = Vector2_Add(go->position, samurai->centerOffset);
-    DrawCircleV(centerPos, 3.0f, BLACK);
+void samuraiOrientationLogic(SamuraiRayleigh* samurai) {
+    // QUALITY OF LIFE
+    GameObject* go = &samurai->gameObject;
+    SpriteRenderer* sr = &samurai->spriteRenderer;
+
+    if (go->velocity.x > 0) {
+        sr->orientation = ORIENTATION_RIGHT;
+    } else if (go->velocity.x < 0) {
+        sr->orientation = ORIENTATION_LEFT;
+    }
+}
+
+void samuraiBasicMovementLogic(SamuraiRayleigh* samurai) {
+    // QUALITY OF LIFE
+    GameObject* go = &samurai->gameObject;
+
+    // Reset x velocity
+    go->velocity.x = 0;
+    // Reset movement delta
+    Vector2 moveDelta = { 0, 0 };
+
+    // Apply gravity
+    moveDelta.y += 4;
+
+    int speed = 10;
+    if (IsKeyDown(KEY_RIGHT)) {
+        moveDelta.x += speed;
+    }
+
+    if (IsKeyDown(KEY_LEFT)) {
+        moveDelta.x -= speed;
+    }
+
+    if (IsKeyDown(KEY_UP)) {
+        moveDelta.y -= speed;
+    }
+
+    // apply movement delta
+    go->velocity = Vector2_Add(go->velocity, moveDelta);
+
+}
+
+void samuraiCollisionLogic(SamuraiRayleigh* samurai, Scene* scene) {
+    // QUALITY OF LIFE
+    SpriteRenderer* sr = &samurai->spriteRenderer;
+    Collider* coll = &samurai->collider;
+    GameObject* go = &samurai->gameObject;
+
+    // Check if no clipping
+    if (samurai->noClip) {
+        Vector2_Add(go->position, go->velocity);
+    }
 
     Collider* overlappingColls[10];
     int overlapLength;
-
     // Collision check
     // X COMPONENT
-    if (!samurai->noClip) {
-        go->position.x += go->velocity.x;
-        overlapLength = Scene_GetOverlappingColliders(scene, coll, overlappingColls, 10); 
-        for (int i = 0; i < overlapLength; i++) {
-            GameObject* curr = overlappingColls[i]->gameObject;
-            if (GameObject_HasTag(curr, "wall")) {
-                // collision has happened
-                go->position.x -= go->velocity.x;
-                break;
-            }
+    go->position.x += go->velocity.x;
+    overlapLength = Scene_GetOverlappingColliders(scene, coll, overlappingColls, 10); 
+    for (int i = 0; i < overlapLength; i++) {
+        GameObject* curr = overlappingColls[i]->gameObject;
+        if (GameObject_HasTag(curr, "wall")) {
+            // collision has happened
+            go->position.x -= go->velocity.x;
+            // reset velocity
+            go->velocity.x = 0;
+            break;
         }
-        // Y COMPONENT
-        go->position.y += go->velocity.y;
-        overlapLength = Scene_GetOverlappingColliders(scene, coll, overlappingColls, 10);
-        for (int i = 0; i < overlapLength; i++) {
-            GameObject* curr = overlappingColls[i]->gameObject;
-            if (GameObject_HasTag(curr, "wall")) {
-                // collision has happneed
-                go->position.y -= go->velocity.y;
-                break;
-            }
-        }
-    } else {
-        go->position = Vector2_Add(go->position, go->velocity);
     }
-    /*
+    // Y COMPONENT
+    go->position.y += go->velocity.y;
+    overlapLength = Scene_GetOverlappingColliders(scene, coll, overlappingColls, 10);
+    for (int i = 0; i < overlapLength; i++) {
+        GameObject* curr = overlappingColls[i]->gameObject;
+        if (GameObject_HasTag(curr, "wall")) {
+            // collision has happneed
+            go->position.y -= go->velocity.y;
+            // reset velocity
+            go->velocity.y = 0;
+            break;
+        }
+    }
+
     char buff[1000];
     strcpy(buff, "Overlapping objects\n");
     for (int i = 0; i < overlapLength; i++) {
@@ -110,7 +137,56 @@ void samuraiUpdate(void* data, Scene* scene) {
     Scene_EndCameraMode(scene);
     DrawText(buff, 25, 600, 12, BLACK);
     Scene_BeginCameraMode(scene);
-    */
+
+}
+
+void samuraiDashLogic(SamuraiRayleigh* samurai) {
+    // QUALITY OF LIFE 
+    SpriteRenderer* sr = &samurai->spriteRenderer;
+    GameObject* go = &samurai->gameObject;
+    // dash
+    if (samurai->dashing) {
+        printf("Frame: %d\n", sr->currentFrame);
+        if (SpriteRenderer_IsLastFrame(sr)) {
+            // End animation
+            samurai->blockingDefaultAnimation = false;
+            samurai->dashing = false;
+        }
+        if (sr->currentFrame < 4){
+            // apply dash
+            go->velocity.x += samurai->dashSpeed * sr->orientation;
+        }
+    } else if (IsKeyDown(KEY_LEFT_SHIFT)) {
+        sr->currentAnimationIndex = SAMURAI_DASH;
+        SpriteRenderer_ResetFrameDelay(sr);
+        sr->currentFrame = 0;
+        samurai->dashing = true;
+        samurai->blockingDefaultAnimation = true;
+    }
+}
+
+void samuraiUpdate(void* data, Scene* scene) {
+    SamuraiRayleigh* samurai = (SamuraiRayleigh*) data;
+    SpriteRenderer* sr = &samurai->spriteRenderer;
+    Collider* coll = &samurai->collider;
+    GameObject* go = &samurai->gameObject;
+
+
+
+    // BASIC MOVEMENT
+    samuraiBasicMovementLogic(samurai);
+    // DASH
+    samuraiDashLogic(samurai);
+    // ORIENTATION
+    samuraiOrientationLogic(samurai);
+    // ANIMATION
+    samuraiDefaultAnimation(samurai);
+    // COLLISION
+    samuraiCollisionLogic(samurai, scene);
+
+    // DRAW CENTER POINT
+    Vector2 centerPos = Vector2_Add(go->position, samurai->centerOffset);
+    DrawCircleV(centerPos, 3.0f, BLACK);
 
 
     // Tomfoolery
@@ -148,6 +224,9 @@ void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
     s->squaresLength = 0;
     s->centerOffset = (Vector2) {250, 425};
     s->noClip = false;
+    s->dashing = false;
+    s->dashSpeed = 20;
+    s->blockingDefaultAnimation = false;
     // GAME OBJECT INITIALIZATION
     s->gameObject = GameObject_From(x, y, (void*) s);
     s->gameObject.update = &samuraiUpdate;
@@ -162,7 +241,7 @@ void SamuraiRayleigh_Init(SamuraiRayleigh* s, int x, int y) {
             190,
             370,
             100,
-            175
+            160
     );
     // ATTACH COMPONENTS
     s->gameObject._componentSpriteRenderer = &s->spriteRenderer;

@@ -9,6 +9,7 @@
 #include <stdbool.h>
 
 #define SAMURAI_IDLE 8
+#define SAMURAI_DASH 5
 #define SAMURAI_RUN 2
 
 #define RAYLEIGH_TYPE "rayleigh"
@@ -17,6 +18,11 @@ typedef struct {
     // VALUES
     Vector2 centerOffset;
     bool noClip;
+
+    bool dashing;
+    float dashSpeed;
+    // animation values
+    bool blockingDefaultAnimation;
     // COLLECTIONS
     SquareObject* squares[50];
     int squaresLength;
