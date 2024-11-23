@@ -28,6 +28,7 @@ void TestMap_Init(TestMap* testMap, int x, int y, const char* filepath) {
     testMap->filePath = filepath;
     // GAME OBJECT INITIALIZATION
     testMap->gameObject = GameObject_From(x, y, (void*) testMap);
+    testMap->gameObject.drawLayer = 4;
     testMap->gameObject.update = testMapUpdate;
     testMap->gameObject.onSceneAttach = testMapScene;
     GameObject_AddTag(&testMap->gameObject, "wall");
