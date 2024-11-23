@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "gameObject.h"
 #include "orientation.h"
+#include <stdbool.h>
 
 struct sprite_renderer_t {
     char spriteName[256];
@@ -40,6 +41,10 @@ Vector2 SpriteRenderer_GetPosition(SpriteRenderer* sr);
 Texture2D SpriteRenderer_GetCurrentFrame(SpriteRenderer* sr);
 
 void SpriteRenderer_NextFrame(SpriteRenderer* sr);
+
+void SpriteRenderer_ResetFrameDelay(SpriteRenderer* sr);
+
+bool SpriteRenderer_IsLastFrame(SpriteRenderer* sr);
 
 void SpriteRenderer_Animate(SpriteRenderer* sr);
 

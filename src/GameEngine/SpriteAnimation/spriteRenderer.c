@@ -58,6 +58,20 @@ void SpriteRenderer_NextFrame(SpriteRenderer* sr) {
     }
 }
 
+void SpriteRenderer_ResetFrameDelay(SpriteRenderer* sr) {
+    sr->_frameCounter = 0;
+}
+
+bool SpriteRenderer_IsLastFrame(SpriteRenderer* sr) {
+    if (sr->currentFrame == SpriteRenderer_GetCurrentSpriteAnimation(sr)->loadedTexturesLength-1) {
+        if (sr->_frameCounter == (sr->frameDelay-1)) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 void SpriteRenderer_Animate(SpriteRenderer* sr) {
     if (sr->currentAnimationIndex == EMPTY_ANIMATION_INDEX) {
         return;
