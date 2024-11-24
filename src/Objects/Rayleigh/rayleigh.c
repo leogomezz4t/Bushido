@@ -92,7 +92,8 @@ void samuraiCollisionLogic(SamuraiRayleigh* samurai, Scene* scene) {
 
     // Check if no clipping
     if (samurai->noClip) {
-        Vector2_Add(go->position, go->velocity);
+        go->position = Vector2_Add(go->position, go->velocity);
+        return;
     }
 
     Collider* overlappingColls[10];
