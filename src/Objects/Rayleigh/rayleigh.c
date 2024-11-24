@@ -74,6 +74,11 @@ void samuraiBasicMovementLogic(SamuraiRayleigh* samurai) {
         moveDelta.y -= speed;
     }
 
+    // Freeze x component if dashing
+    if (samurai->dashing) {
+        moveDelta.x = 0;
+    }
+
     // apply movement delta
     go->velocity = Vector2_Add(go->velocity, moveDelta);
 
@@ -152,7 +157,7 @@ void samuraiDashLogic(SamuraiRayleigh* samurai) {
             samurai->blockingDefaultAnimation = false;
             samurai->dashing = false;
         }
-        if (sr->currentFrame < 4){
+        if (sr->currentFrame >= 1 && sr->currentFrame < 4){
             // apply dash
             go->velocity.x += samurai->dashSpeed * sr->orientation;
         }
