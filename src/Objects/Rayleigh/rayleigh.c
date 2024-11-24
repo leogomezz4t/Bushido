@@ -190,25 +190,6 @@ void samuraiUpdate(void* data, Scene* scene) {
     // COLLISION
     samuraiCollisionLogic(samurai, scene);
 
-    // DRAW CENTER POINT
-    Vector2 centerPos = Vector2_Add(go->position, samurai->centerOffset);
-    DrawCircleV(centerPos, 3.0f, BLACK);
-
-
-    // Tomfoolery
-    if (IsKeyPressed(KEY_SPACE)) {
-        // Add square at current location
-        if (samurai->squaresLength < 50) {
-            samurai->squares[samurai->squaresLength] = (SquareObject*) malloc(sizeof(SquareObject));
-            SquareObject* curr = samurai->squares[samurai->squaresLength];
-            // init square
-            SquareObject_Init(curr, centerPos.x, centerPos.y, 100, 100);
-            Collider_SetDebug(&curr->collider, true);
-            // Add to scene
-            Scene_AddGameObject(scene, &curr->gameObject);
-            samurai->squaresLength++;
-        }
-    }
 
     if (IsKeyPressed(KEY_C)) {
         if (samurai->noClip) {
